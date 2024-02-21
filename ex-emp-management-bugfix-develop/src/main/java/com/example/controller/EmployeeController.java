@@ -70,6 +70,7 @@ public class EmployeeController {
 		Employee employee = employeeService.showDetail(Integer.parseInt(id));
 		model.addAttribute("employee", employee);
 		return "employee/detail";
+		
 	}
 
 	/////////////////////////////////////////////////////
