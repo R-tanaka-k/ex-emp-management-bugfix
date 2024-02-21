@@ -30,6 +30,7 @@ public class AdministratorRepository {
 		administrator.setName(rs.getString("name"));
 		administrator.setMailAddress(rs.getString("mail_address"));
 		administrator.setPassword(rs.getString("password"));
+		
 		return administrator;
 	};
 
@@ -44,7 +45,7 @@ public class AdministratorRepository {
 	 * @throws org.springframework.dao.DataAccessException 存在しない場合は例外を発生します
 	 */
 	public Administrator load(Integer id) {
-		String sql = "select id,name,mail_address,password from administrators where id=:id";
+		String sql = "select id,name,mail_address,password,co from administrators where id=:id";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		Administrator administrator = template.queryForObject(sql, param, ADMINISTRATOR_ROW_MAPPER);
 		return administrator;

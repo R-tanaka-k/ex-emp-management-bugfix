@@ -15,7 +15,6 @@ public class Administrator {
 	private String mailAddress;
 	/** パスワード */
 	private String password;
-
 	/**
 	 * 引数無しのコンストラクタ.
 	 */
@@ -74,5 +73,6 @@ public class Administrator {
 		return "Administrator [id=" + id + ", name=" + name + ", mailAddress=" + mailAddress + ", password=" + password
 				+ "]";
 	}
+	
 
 }
