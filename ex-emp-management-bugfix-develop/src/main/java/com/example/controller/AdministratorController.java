@@ -121,13 +121,15 @@ public class AdministratorController {
 	 * @return ログイン後の従業員一覧画面
 	 *///ログインを押したときの処理を示している
 	@PostMapping("/login")
-	public String login(LoginForm form, RedirectAttributes redirectAttributes) {
+	public String login(LoginForm form, Model model) {
 		Administrator administrator = administratorService.login(form.getMailAddress(), form.getPassword());
 		if (administrator == null) {
-			redirectAttributes.addFlashAttribute("errorMessage", "メールアドレスまたはパスワードが不正です。");
-			return "redirect:/";
-		}
+			model.addAttribute("errorMessage", "メールアドレスまたはパスワードが不正です。");
+			return toLogin();
+		}else{
+		session.setAttribute("administratorName", administrator.getName());
 		return "redirect:/employee/showList";
+		}
 	}
 
 	/////////////////////////////////////////////////////
