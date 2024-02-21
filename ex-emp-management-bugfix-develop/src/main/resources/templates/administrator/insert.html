@@ -77,15 +77,19 @@
                   </div>
                 </div>
                 <!-- メールアドレス -->
+                
                 <div class="form-group">
                   <div class="row">
                     <div class="col-sm-12">
                       <label for="mailAddress"> メールアドレス: </label>
                       <label
                         th:errors="*{mailAddress}"
-                        class="error-messages"
-                      >
+                        class="error-messages">
                         メールアドレスを入力してください
+                      </label>
+                      <!-- ここにエラーメッセージを表示するコードを追加 -->
+                      <label th:if="${errorMessage}" th:text="${errorMessage}" class="error-messages">
+                        このメールアドレスは既に登録されています
                       </label>
                       <input
                         type="text"

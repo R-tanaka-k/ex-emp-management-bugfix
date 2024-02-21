@@ -1,8 +1,12 @@
 package com.example.controller;
 
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,12 +76,22 @@ public class AdministratorController {
 	 * @return ログイン画面へリダイレクト
 	 */
 	@PostMapping("/insert")
-	public String insert(InsertAdministratorForm form) {
+	public String insert(@Validated InsertAdministratorForm form,BindingResult result,RedirectAttributes redirectAttributes,Model model) {
+		if(result.hasErrors()) {
+			return toInsert();
+		}
+		// メールアドレスが重複していないかチェック
+		if (administratorService.findByMailAddress(form.getMailAddress()) != null) {
+			model.addAttribute("errorMessage", "このメールアドレスは既に登録されています");
+			return toInsert();
+		}
 		Administrator administrator = new Administrator();
 		// フォームからドメインにプロパティ値をコピー
 		BeanUtils.copyProperties(form, administrator);
 		administratorService.insert(administrator);
-		return "employee/list";
+		// return "employee/list";
+		// ↑からログイン画面へリダイレクトする処理へ変更
+		return "redirect:/";
 	}
 
 	/////////////////////////////////////////////////////
@@ -98,7 +112,7 @@ public class AdministratorController {
 	 * 
 	 * @param form 管理者情報用フォーム
 	 * @return ログイン後の従業員一覧画面
-	 */
+	 *///ログインを押したときの処理を示している
 	@PostMapping("/login")
 	public String login(LoginForm form, RedirectAttributes redirectAttributes) {
 		Administrator administrator = administratorService.login(form.getMailAddress(), form.getPassword());
