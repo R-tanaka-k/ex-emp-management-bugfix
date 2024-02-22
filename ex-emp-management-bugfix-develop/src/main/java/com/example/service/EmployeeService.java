@@ -52,4 +52,26 @@ public class EmployeeService {
 	public void update(Employee employee) {
 		employeeRepository.update(employee);
 	}
+
+	//従業員曖昧検索
+	public List<Employee> search(String name) {
+		if (name == null || name.isEmpty()){
+			return employeeRepository.findAll();
+		}else{
+		List<Employee> employeeList = employeeRepository.findByName(name);
+		if (employeeList.isEmpty()) {
+			return employeeRepository.findAll();
+		}else{
+			return employeeList;
+		}
+	}
+ }
+
+	public List<Employee> findByName(String name) {
+		return employeeRepository.findByName(name);
+	}
+
+    public List<Employee> findAll() {
+		return employeeRepository.findAll();
+    }
 }
